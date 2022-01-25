@@ -19,7 +19,7 @@ class ConnDB
         try {
 
             $bdd = new PDO(
-                'mysql:host='.$this->host.';dbname='.$this->db.';charset=utf8mb4', 
+                'mysql:host='.$this->host.';dbname='.$this->dbname.';charset=utf8mb4', 
                  $this->user, 
                  $this->pass
             );
@@ -49,14 +49,16 @@ class ConnDB
 
         if($params){
             foreach ($params as $p) {
-                $stmt->bindParam($p[0], $p[1], $p[2]);
+                $stmt->bindValue($p[0], $p[1], $p[2]);
+                
             }
         }
 
+        
         $stmt->execute();
-        return $stmt->fetchAll();
+        return $stmt;
 
-        $stmt->closeCursor();
+        
     }
 
 }
