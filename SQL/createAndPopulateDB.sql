@@ -18,9 +18,8 @@ CREATE TABLE IF NOT EXISTS `smartcarbon`.`User` (
 CREATE TABLE IF NOT EXISTS `smartCarbon`.`reponse` (
   `idreponse` INT NOT NULL,
   `valueReponse` INT NOT NULL,
-  `contentReponse` VARCHAR(45) NOT NULL,
+  `contentReponse` VARCHAR(200) NOT NULL,
   `Question_idQuestion` INT NOT NULL,
-  `Question_image_idimage` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`idreponse`, `Question_idQuestion`, `Question_image_idimage`),
   INDEX `fk_reponse_Question1_idx` (`Question_idQuestion`, `Question_image_idimage`),
   CONSTRAINT `fk_reponse_Question1`
