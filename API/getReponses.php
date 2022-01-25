@@ -9,9 +9,8 @@
     
     
     $result = $conn->executeQuery("
-    SELECT idQuestion as id, content, img.imageValue as image, categorie
-    FROM Question
-    INNER JOIN image as img ON img.idimage = Question.image_idimage")->fetchAll();
+    SELECT idreponse as id, valueReponse as value, contentReponse as content, Question_idQuestion as idQuestion
+    FROM reponse ")->fetchAll();
     
     if(count($result) > 0){
         $arr = array();
