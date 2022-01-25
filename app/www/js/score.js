@@ -24,7 +24,7 @@ function handleGetSession() {
 
 function handleBackButton() {
   if(finished == "true") {
-      window.location.href = "./no-questions.html";
+    window.location.href = "./no-questions.html";
   } else {
     window.location.href = "./questions.html";
   }

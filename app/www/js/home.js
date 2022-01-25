@@ -7,7 +7,12 @@ function handleCreateSession() {
         let id = generateId(40);
         storage.setItem("id", id);
     }
-    window.location.href = "./questions.html";
+    let finished = storage.getItem("finished");
+    if(finished == "true") {
+        window.location.href = "./no-questions.html";
+    } else {
+      window.location.href = "./questions.html";
+    }
 };
 
 function generateId(length) {
