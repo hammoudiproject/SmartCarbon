@@ -1,23 +1,59 @@
-document.getElementById("start").addEventListener("click", handleCreateSession);
+document.addEventListener("deviceready", onDeviceReady, false);
 
-let storage = window.localStorage;
+onDeviceReady();
 
-function handleCreateSession() {
-    let value = storage.getItem("id");
-    if(value == null) {
-        let newId = generateId(40);
-        storage.setItem("id", newId);
+function onDeviceReady() {    
+    let storage = window.localStorage;
+    
+    if(!storage.questions || !storage.reponses) {
+        requeteServeur("getQuestions.php").then(function(response) { 
+            createQuestions(response);
+            requeteServeur("getReponses.php").then(function(response) { 
+                    createReponses(response);
+                    window.location.href = "./home.html";
+            })
+        })
+    } else {
+        window.location.href = "./home.html";
     }
-    console.log(storage.getItem("id"));
-    window.location.href = "./questions.html";
-};
-
-function generateId(length) {
-    let result = '';
-    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let charactersLength = characters.length;
-    for ( let i = 0; i < length; i++ ) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    
+    function requeteServeur(route) {
+        return new Promise((resolve, reject) => {
+            fetch('https://smartcarbon.chipmnk.dev/' + route, {
+                method: 'GET'
+            }).then((response) => {
+                if (response.ok || response.status == 404) return response.json();
+                else reject(response.statusText);
+            }).then((response) => resolve(response))
+            .catch((error) => reject(error));
+        });
     }
-   return result;
+    
+    function createQuestions(json) {
+        questions = [];
+        for(let question of json) {
+            let q = {
+                id: question.id,
+                content: question.content,
+                categorie: question.categorie,
+                image: question.image,
+            }
+            questions.push(q);
+        }
+        storage.setItem("questions", JSON.stringify(questions));
+    }
+    
+    function createReponses(json) {
+        reponses = [];
+        for(let reponse of json) {
+            let r = {
+                id: reponse.id,
+                content: reponse.content,
+                value: reponse.value,
+                idQuestion: reponse.idQuestion,
+            };
+            reponses.push(r);
+        }
+        storage.setItem("reponses", JSON.stringify(reponses));
+    }
 }

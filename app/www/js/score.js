@@ -1,12 +1,17 @@
 
 document.getElementById("reset").addEventListener("click", handleReset);
 document.getElementById("share").addEventListener("click", handleShare);
+document.getElementById("back").addEventListener("click", handleBackButton);
 document.addEventListener("backbutton", handleBackButton, false);
 
+
 let id;
-let nbQuestions;
+let nbQuestionsAsked;
 
 let storage = window.localStorage;
+
+let score = Math.floor(Math.random() * 50);;
+let finished = storage.getItem("finished");
 
 handleGetSession();
 
@@ -14,29 +19,34 @@ getScore();
 
 function handleGetSession() {
   id = storage.getItem("id");
-  nbQuestions = storage.getItem("nbQuestions");
+  nbQuestionsAsked = storage.getItem("nbQuestionsAsked");
 };
 
 function handleBackButton() {
-  window.location.href = "./questions.html";
+  if(finished == "true") {
+      window.location.href = "./no-questions.html";
+  } else {
+    window.location.href = "./questions.html";
+  }
 }
 
 function getScore() {
-  let rd = Math.floor(Math.random() * 500);
-  document.getElementById("score").innerHTML = "Votre taux d'emprunte carbonne est de " + rd;
+  document.getElementById("score").innerHTML = "Your carbon footprint is " + score;
 }
 
 function handleReset() {
-  storage.removeItem("nbQuestions");
+  storage.setItem("finished", false);
+  storage.removeItem("nbQuestionsAsked");
   storage.removeItem("id");
   window.location.href = "./index.html";
 }
 
 function handleShare() {
   navigator.notification.alert(
-    'The sharing link was copied into your clipboard! You can now easily send it to a friend!',
+    'Sharing link copied to your keyboard !',
     function() {},
     'Sharing link copied',
-    'Nice!'
+    'Thank You!'
   );
+  cordova.plugins.clipboard.copy("https://smartcarbon.chipmnk.dev/share.html?score=" + score);
 }

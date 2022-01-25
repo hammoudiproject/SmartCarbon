@@ -9,6 +9,5 @@ function getScore () {
         score = url.searchParams.get("score");
     }
     let scoreSpan = document.getElementById('score');
-    console.log(score);
     scoreSpan.innerHTML = score;
 }

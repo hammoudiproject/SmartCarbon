@@ -5,22 +5,14 @@ for(let button of responseButtons) {
 document.addEventListener("backbutton", handleBackButton, false);
 document.getElementById("score-button").addEventListener("click", handleScoreButton);
 
-let images = ["img/house.png", "img/heating.png", "img/faucets.png"]
-
-let questions = ["Question 1", "Question 2", "Question 3"];
-
-let categories = ["House", "Holidays", "Food"];
-
-let reponses = [
-    ["Réponse 1.1", "Réponse 1.2", "Réponse 1.3"],
-    ["Réponse 2.1", "Réponse 2.2", "Réponse 2.3"],
-    ["Réponse 3.1", "Réponse 3.2", "Réponse 3.3"]
-];
-
 let storage = window.localStorage;
 
+let questions;
+
+let reponses;
+
 let id;
-let nbQuestions;
+let nbQuestionsAsked;
 
 handleGetSession();
 
@@ -30,43 +22,74 @@ getQuestion();
 
 function handleGetSession() {
     id = storage.getItem("id");
-    nbQuestions = storage.getItem("nbQuestions");
-    if(nbQuestions == "NaN") {
-        nbQuestions = 0;
-        storage.setItem("nbQuestions", nbQuestions);
+    questions = JSON.parse(storage.getItem("questions"));
+    reponses = JSON.parse(storage.getItem("reponses"));
+    nbQuestionsAsked = storage.getItem("nbQuestionsAsked");
+    if(nbQuestionsAsked == null) {
+        nbQuestionsAsked = 0;
+        storage.setItem("nbQuestionsAsked", nbQuestionsAsked);
     }
 };
 
 function getQuestion() {
-    let rd = Math.floor(Math.random() * 3);
-    document.getElementById("question").innerHTML = questions[rd];
+    if(questions != null && nbQuestionsAsked > questions.length - 1) {
+        storage.setItem("finished", true);
+        window.location.href = "./no-questions.html"
+        return;
+    }
+    storage.setItem("finished", false);
+    let currentQuestion = questions[nbQuestionsAsked];
+    document.getElementById("question").innerHTML = currentQuestion.content;
+    document.getElementById("question").value = currentQuestion.id;
     let categorie = document.getElementById("categorie");
-    categorie.innerHTML = categories[rd];
-    switch (categories[rd]) {
-        case "House":
+    categorie.innerHTML = currentQuestion.categorie;
+    switch (categorie.innerHTML) {
+        case "HOUSING":
             categorie.style.backgroundColor = "green";
+            categorie.style.color = "white";
             break;
-        case "Holidays":
-            categorie.style.backgroundColor = "blue";
+        case "TRANSPORT":
+            categorie.style.backgroundColor = "#708090";
+            categorie.style.color = "white";
             break;
-        case "Food":
+        case "FOOD":
             categorie.style.backgroundColor = "red";
+            categorie.style.color = "white";
+            break;
+        case "ENERGY":
+            categorie.style.backgroundColor = "yellow";
+            categorie.style.color = "black";
+            break;
+        case "MATERIEL PURCHASES":
+            categorie.style.backgroundColor = "#800000";
+            categorie.style.color = "white";
             break;
         default:
             categorie.style.backgroundColor = "white";
+            categorie.style.color = "black";
             break;
     }
     let responseButtons = document.getElementsByClassName("response");
-    for(let button in responseButtons) {
-        responseButtons[button].innerHTML = reponses[rd][button];
+    let idxButton = 0;
+    for(let reponse of reponses) {
+        if(reponse.idQuestion == currentQuestion.id) {
+            responseButtons[idxButton].innerHTML = reponse.content;
+            responseButtons[idxButton].value = reponse.value;
+            idxButton++;
+        }
     }
-    document.getElementById("image").src = images[rd];
+    for(let button of responseButtons) {
+        if(button.innerHTML == "") {
+            button.innerHTML = "Remplissage";
+            button.style.visibility = "hidden";
+        }
+    }
+    document.getElementById("image").src = "data:image/png;base64," + currentQuestion.image;
 }
 
 function handleResponse(e) {
-    console.log("Réponse: " + e.target.id);
-    nbQuestions++;
-    storage.setItem("nbQuestions", nbQuestions);
+    nbQuestionsAsked++;
+    storage.setItem("nbQuestionsAsked", nbQuestionsAsked);
     handleVisibility();
     getQuestion();
 }
@@ -74,7 +97,7 @@ function handleResponse(e) {
 function handleVisibility() {
     let noAccessTip = document.getElementById("no-access");
     let scoreButton = document.getElementById("score-button");
-    if(nbQuestions >= 10) {
+    if(nbQuestionsAsked >= 10) {
         noAccessTip.style.visibility = "hidden";
         scoreButton.disabled = false;
     } else {
