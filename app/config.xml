@@ -6,6 +6,7 @@
         SEYLLER Vincent
     </author>
     <icon src="www/img/logo.png" width="57" height="57" density="mdpi" />
+    <preference name="HeaderColor" value="#305AC4" />
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />

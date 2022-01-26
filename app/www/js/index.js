@@ -1,9 +1,9 @@
 document.addEventListener("deviceready", onDeviceReady, false);
 
-onDeviceReady();
-
 function onDeviceReady() {
     let storage = window.localStorage;
+
+    screen.orientation.lock("portrait");
 
     if (!storage.questions || !storage.reponses) {
         requeteServeur("getQuestions.php").then(function (response) {
