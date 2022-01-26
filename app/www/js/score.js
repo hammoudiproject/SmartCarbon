@@ -89,10 +89,10 @@ function handleReset() {
 
 function handleShare() {
 	navigator.notification.alert(
-		'Sharing link copied to your keyboard !',
+		'You can now share your score with your friends! 🥳',
 		function () {},
 		'Sharing link copied',
-		'Thank You!'
+		'Thank You! 👍'
 	);
 	cordova.plugins.clipboard.copy("https://smartcarbon.chipmnk.dev/share/share.html?score=" + user.score);
 }

@@ -206,7 +206,13 @@ h1 {
     position: absolute;
     top: 0;
     right: 0;
-    width: 30vh;
+    width: 15vw;
+}
+
+@media only screen and (max-width: 600px) {
+    #logo-uha-2 {
+        width: 30vw;
+    }
 }
 
 #logo-border {

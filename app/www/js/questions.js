@@ -37,8 +37,10 @@ function handleGetSession() {
 function getQuestion() {
     if (questions != null && nbQuestionsAsked > questions.length - 1) {
         storage.setItem("finished", true);
-        window.location.href = "./no-questions.html"
-        return;
+        requeteServeur("addScoreToUser.php?idUser=" + id + "&score=" + score).then(function (response) {
+            window.location.href = "./no-questions.html";
+            return;
+        })
     }
     storage.setItem("finished", false);
     let currentQuestion = questions[nbQuestionsAsked];
@@ -112,15 +114,9 @@ function handleVisibility() {
 }
 
 function handleBackButton() {
-    new Promise((resolve, reject) => {
-        fetch("https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=" + id + "&score=" + score, {
-            method: "GET"
-        }).then((response) => {
-            if (response.ok || response.status == 404) {
-                window.location.href = "./home.html";
-            } else reject(response.statusText);
-        }).catch((error) => reject(error));
-    });
+    requeteServeur("addScoreToUser.php?idUser=" + id + "&score=" + score).then(function (response) {
+        window.location.href = "./home.html";
+    })
 }
 
 function handleScoreButton() {
