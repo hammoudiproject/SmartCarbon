@@ -82,12 +82,6 @@ function getQuestion() {
             idxButton++;
         }
     }
-    for (let button of responseButtons) {
-        if (button.innerHTML == "") {
-            button.innerHTML = "Remplissage";
-            button.style.visibility = "hidden";
-        }
-    }
     document.getElementById("image").src = "data:image/png;base64," + currentQuestion.image;
 }
 
