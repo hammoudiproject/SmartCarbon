@@ -14,7 +14,28 @@
         <div class="p-2">
             <img src="img/score.png" alt="..." class="img-thumbnail img-question rounded mx-auto d-block">
         </div>
-        <div class="mx-2 mt-2 mb-4 text-center" id="score"></div>
+        <div class="mx-2 mt-2 mb-4 text-center">
+            <p>
+                Your SmartCarbon score is <span id="score" class="stat"></span>.
+            </p>
+            <p>
+                It's like <span id="footprint" class="stat"></span> tons of co2 per year.
+            </p>
+            <p>
+                You are actually better than <span id="percent" class="stat"></span>% of users.
+            </p>
+            <p>
+                <div id="progress">
+                    <div id="bar"></div>
+                </div>
+            </p>
+            <p>
+                Your category : 
+            </p>
+            <p>
+                <span id="category" class="stat-category text-center badge badge-primary"></span>
+            </p>
+        </div>
         <div class="container index-buttons mb-5">
             <div class="col-md-12 text-center m-3">
                 <button class="btn btn-success btn-lg" id="share">Share</button>

@@ -11,6 +11,8 @@ let questions;
 
 let reponses;
 
+let score;
+
 let id;
 let nbQuestionsAsked;
 
@@ -21,6 +23,7 @@ handleVisibility();
 getQuestion();
 
 function handleGetSession() {
+    score = 0;
     id = storage.getItem("id");
     questions = JSON.parse(storage.getItem("questions"));
     reponses = JSON.parse(storage.getItem("reponses"));
@@ -89,6 +92,8 @@ function getQuestion() {
 
 function handleResponse(e) {
     nbQuestionsAsked++;
+    score += parseInt(e.target.value);
+    console.log(score);
     storage.setItem("nbQuestionsAsked", nbQuestionsAsked);
     handleVisibility();
     getQuestion();
@@ -107,9 +112,26 @@ function handleVisibility() {
 }
 
 function handleBackButton() {
-    window.location.href = "./questions.html";
+    new Promise((resolve, reject) => {
+        fetch('https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=' + id + '&score=' + score, {
+                method: 'GET'
+            }).then((response) => {
+                if (response.ok || response.status == 404) {
+                    window.location.href = "./home.html";
+                } else reject(response.statusText);
+            }).catch((error) => reject(error));
+    });
 }
 
 function handleScoreButton() {
-    window.location.href = "./score.html";
+    new Promise((resolve, reject) => {
+        fetch('https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=' + id + '&score=' + score, {
+                method: 'GET'
+            }).then((response) => {
+                if (response.ok || response.status == 404) {
+                    console.log(response);
+                    window.location.href = "./score.html";
+                } else reject(response.statusText);
+            }).catch((error) => reject(error));
+    });
 }

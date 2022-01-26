@@ -117,8 +117,23 @@ h1 {
     position: absolute;
 }
 
-#question, #score {
+#question, .stat {
     font: 20px "Arial";
+}
+
+.stat-category {
+    font: 17px "Arial";
+}
+
+#progress {
+    width: 100%;
+    background-color: white;
+    border: 1px solid black;
+}
+  
+#bar {
+    height: 30px;
+    background-color: green;
 }
 
 .img-thumbnail {
