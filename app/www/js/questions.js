@@ -1,5 +1,5 @@
 let responseButtons = document.getElementsByClassName("response");
-for(let button of responseButtons) {
+for (let button of responseButtons) {
     button.addEventListener("click", handleResponse);
 }
 document.addEventListener("backbutton", handleBackButton, false);
@@ -28,14 +28,14 @@ function handleGetSession() {
     questions = JSON.parse(storage.getItem("questions"));
     reponses = JSON.parse(storage.getItem("reponses"));
     nbQuestionsAsked = storage.getItem("nbQuestionsAsked");
-    if(nbQuestionsAsked == null) {
+    if (nbQuestionsAsked == null) {
         nbQuestionsAsked = 0;
         storage.setItem("nbQuestionsAsked", nbQuestionsAsked);
     }
 };
 
 function getQuestion() {
-    if(questions != null && nbQuestionsAsked > questions.length - 1) {
+    if (questions != null && nbQuestionsAsked > questions.length - 1) {
         storage.setItem("finished", true);
         window.location.href = "./no-questions.html"
         return;
@@ -74,15 +74,15 @@ function getQuestion() {
     }
     let responseButtons = document.getElementsByClassName("response");
     let idxButton = 0;
-    for(let reponse of reponses) {
-        if(reponse.idQuestion == currentQuestion.id) {
+    for (let reponse of reponses) {
+        if (reponse.idQuestion == currentQuestion.id) {
             responseButtons[idxButton].innerHTML = reponse.content;
             responseButtons[idxButton].value = reponse.value;
             idxButton++;
         }
     }
-    for(let button of responseButtons) {
-        if(button.innerHTML == "") {
+    for (let button of responseButtons) {
+        if (button.innerHTML == "") {
             button.innerHTML = "Remplissage";
             button.style.visibility = "hidden";
         }
@@ -102,7 +102,7 @@ function handleResponse(e) {
 function handleVisibility() {
     let noAccessTip = document.getElementById("no-access");
     let scoreButton = document.getElementById("score-button");
-    if(nbQuestionsAsked >= 10) {
+    if (nbQuestionsAsked >= 10) {
         noAccessTip.style.visibility = "hidden";
         scoreButton.disabled = false;
     } else {
@@ -113,25 +113,30 @@ function handleVisibility() {
 
 function handleBackButton() {
     new Promise((resolve, reject) => {
-        fetch('https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=' + id + '&score=' + score, {
-                method: 'GET'
-            }).then((response) => {
-                if (response.ok || response.status == 404) {
-                    window.location.href = "./home.html";
-                } else reject(response.statusText);
-            }).catch((error) => reject(error));
+        fetch("https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=" + id + "&score=" + score, {
+            method: "GET"
+        }).then((response) => {
+            if (response.ok || response.status == 404) {
+                window.location.href = "./home.html";
+            } else reject(response.statusText);
+        }).catch((error) => reject(error));
     });
 }
 
 function handleScoreButton() {
-    new Promise((resolve, reject) => {
-        fetch('https://smartcarbon.chipmnk.dev/addScoreToUser.php?idUser=' + id + '&score=' + score, {
-                method: 'GET'
+    requeteServeur("addScoreToUser.php?idUser=" + id + "&score=" + score).then(function (response) {
+        window.location.href = "./score.html";
+    })
+}
+
+function requeteServeur(route) {
+    return new Promise((resolve, reject) => {
+        fetch("https://smartcarbon.chipmnk.dev/" + route, {
+                method: "GET"
             }).then((response) => {
-                if (response.ok || response.status == 404) {
-                    console.log(response);
-                    window.location.href = "./score.html";
-                } else reject(response.statusText);
-            }).catch((error) => reject(error));
+                if (response.ok || response.status == 404) resolve(response);
+                else reject(response.statusText);
+            }).then((response) => resolve(response))
+            .catch((error) => reject(error));
     });
 }
