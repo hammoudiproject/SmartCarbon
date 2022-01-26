@@ -5,7 +5,7 @@ Le but étant de développer en 2 semaines les 3 différentes étapes d'un proje
  - La conception
  - Le développement
  - Les tests
-Le projet est une application visant à calculer l'emprunte carbonne des utilisateurs avec un système de questions/réponses, et de pouvoir comparer les résultats entre l'ensemble des utilisateurs.
+Le projet est une application visant à calculer l'emprunte carbone des utilisateurs avec un système de questions/réponses, et de pouvoir comparer les résultats entre l'ensemble des utilisateurs.
 ## Installation
 Ce projet a été fait avec Cordova, qui s'installe comme suit (procédure pour Windows 10) :
 - Installer Gradle via ce lien (v7.3.3) : https://gradle.org/releases/
