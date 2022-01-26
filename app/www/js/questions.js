@@ -36,10 +36,9 @@ function handleGetSession() {
 
 function getQuestion() {
     if (questions != null && nbQuestionsAsked > questions.length - 1) {
-        storage.setItem("finished", true);
         requeteServeur("addScoreToUser.php?idUser=" + id + "&score=" + score).then(function (response) {
+            storage.setItem("finished", true);
             window.location.href = "./no-questions.html";
-            return;
         })
     }
     storage.setItem("finished", false);

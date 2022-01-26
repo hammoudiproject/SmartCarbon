@@ -137,8 +137,7 @@ h1 {
 }
 
 .buttons {
-    height: 30vh;
-    bottom: 0;
+    bottom: 4vh;
     position: absolute;
 }
 
@@ -158,6 +157,7 @@ h1 {
 }
 
 #bar {
+    width: 0%;
     height: 30px;
     background-color: green;
 }
@@ -188,7 +188,7 @@ h1 {
 
 #no-access {
     position: absolute;
-    bottom: 1.5vh;
+    bottom: 2vh;
     width: 100%;
     background-color: #B22222;
     color: white;
